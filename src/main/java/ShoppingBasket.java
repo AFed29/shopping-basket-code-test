@@ -2,9 +2,11 @@ import java.util.HashMap;
 
 public class ShoppingBasket {
     private HashMap<Item, Integer> items;
+    int total;
 
     public ShoppingBasket() {
         this.items = new HashMap<>();
+        this.total = 0;
     }
 
     public int getNumberOfUniqueItems() {
@@ -25,10 +27,6 @@ public class ShoppingBasket {
         return items.get(item);
     }
 
-    public void emptyBasket() {
-        items.clear();
-    }
-
     public void removeItem(Item item) {
         if (items.get(item) > 1) {
             int count = items.get(item);
@@ -37,5 +35,13 @@ public class ShoppingBasket {
         } else {
             items.remove(item);
         }
+    }
+
+    public void emptyBasket() {
+        items.clear();
+    }
+
+    public HashMap<Item, Integer> getItems() {
+        return items;
     }
 }
