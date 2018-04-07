@@ -44,4 +44,8 @@ public class ShoppingBasket {
     public HashMap<Item, Integer> getItems() {
         return items;
     }
+
+    public int totalOfBasket(Discount discount, Customer customer) {
+        return Total.total(getItems(), discount, customer);
+    }
 }

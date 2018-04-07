@@ -26,14 +26,14 @@ public class TotalTest {
 
     @Test
     public void totalIsZeroWhenShoppingBasketIsEmpty() {
-        int total = Total.total(shoppingBasket,discount, customer1);
+        int total = Total.total(shoppingBasket.getItems(),discount, customer1);
         assertEquals(0, total);
     }
 
     @Test
     public void getTotalWithOneItemNoDiscounts() {
         shoppingBasket.addItem(item1);
-        int total = Total.total(shoppingBasket, discount, customer1);
+        int total = Total.total(shoppingBasket.getItems(), discount, customer1);
         assertEquals(100, total);
     }
 
@@ -43,7 +43,7 @@ public class TotalTest {
             shoppingBasket.addItem(item1);
         }
         discount.addItemToBOGOFList(item1);
-        int total = Total.total(shoppingBasket,discount, customer1);
+        int total = Total.total(shoppingBasket.getItems(),discount, customer1);
         assertEquals(300, total);
     }
 
@@ -54,7 +54,7 @@ public class TotalTest {
         }
         discount.setPercentageOffWhenOverAmount(10);
         discount.setMoneyOffOverAmount(2000);
-        int total = Total.total(shoppingBasket, discount, customer1);
+        int total = Total.total(shoppingBasket.getItems(), discount, customer1);
         assertEquals(2025, total);
     }
 
@@ -64,7 +64,7 @@ public class TotalTest {
             shoppingBasket.addItem(item1);
         }
         discount.setPercentageOffForMembership(2);
-        int total = Total.total(shoppingBasket, discount, customer2);
+        int total = Total.total(shoppingBasket.getItems(), discount, customer2);
         assertEquals(490, total);
     }
 
@@ -78,7 +78,7 @@ public class TotalTest {
         discount.setMoneyOffOverAmount(2000);
         discount.setPercentageOffWhenOverAmount(10);
         discount.setPercentageOffForMembership(2);
-        int total = Total.total(shoppingBasket, discount, customer2);
+        int total = Total.total(shoppingBasket.getItems(), discount, customer2);
         assertEquals(2249, total);
     }
 

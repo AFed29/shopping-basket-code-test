@@ -1,11 +1,13 @@
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Total {
     private Total() {}
 
-    public static int total(ShoppingBasket shoppingBasket, Discount discount, Customer customer) {
+    public static int total(HashMap<Item, Integer> items, Discount discount, Customer customer) {
         int total = 0;
-        for (Map.Entry<Item, Integer> entry : shoppingBasket.getItems().entrySet()) {
+        for (Map.Entry<Item, Integer> entry : items.entrySet()) {
             if (discount.isItemBOGOF(entry.getKey())) {
                 if ((entry.getValue() % 2) == 0) {
                     int itemTotal = entry.getKey().getPrice() * (entry.getValue() / 2);

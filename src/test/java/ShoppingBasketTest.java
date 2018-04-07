@@ -69,4 +69,23 @@ public class ShoppingBasketTest {
         shoppingBasket.emptyBasket();
         assertEquals(0, shoppingBasket.getNumberOfUniqueItems());
     }
+
+    @Test
+    public void checkTotalOfBasket() {
+        Discount discount = new Discount();
+        discount.setMoneyOffOverAmount(2000);
+        discount.setPercentageOffWhenOverAmount(10);
+        discount.setPercentageOffForMembership(2);
+        discount.addItemToBOGOFList(apple);
+
+        Customer customer = new Customer("Fred", true);
+
+        for (int i = 0; i < 5; i++) {
+            shoppingBasket.addItem(apple);
+            shoppingBasket.addItem(macBook);
+        }
+
+        int total = shoppingBasket.totalOfBasket(discount, customer);
+        assertEquals(661632, total);
+    }
 }
