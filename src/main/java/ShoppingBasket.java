@@ -2,11 +2,13 @@ import java.util.HashMap;
 
 public class ShoppingBasket {
     private HashMap<Item, Integer> items;
-    int total;
+    private Customer customer;
+    private Discount discount;
 
-    public ShoppingBasket() {
+    public ShoppingBasket(Discount discount, Customer customer) {
         this.items = new HashMap<>();
-        this.total = 0;
+        this.customer = customer;
+        this.discount = discount;
     }
 
     public int getNumberOfUniqueItems() {
@@ -45,7 +47,16 @@ public class ShoppingBasket {
         return items;
     }
 
-    public int totalOfBasket(Discount discount, Customer customer) {
-        return Total.total(getItems(), discount, customer);
+    public String totalOfBasket() {
+        int total = Total.total(this);
+        return Total.prettyTotal(total);
+    }
+
+    public Discount getDiscount() {
+        return discount;
+    }
+
+    public Customer getCustomer() {
+        return customer;
     }
 }

@@ -19,21 +19,21 @@ public class TotalTest {
          item1 = new Item("pear", 100);
          item2 = new Item("Easter Egg", 450);
 
-        shoppingBasket = new ShoppingBasket();
+         discount = new Discount();
 
-        discount = new Discount();
+        shoppingBasket = new ShoppingBasket(discount, customer1);
     }
 
     @Test
     public void totalIsZeroWhenShoppingBasketIsEmpty() {
-        int total = Total.total(shoppingBasket.getItems(),discount, customer1);
+        int total = Total.total(shoppingBasket);
         assertEquals(0, total);
     }
 
     @Test
     public void getTotalWithOneItemNoDiscounts() {
         shoppingBasket.addItem(item1);
-        int total = Total.total(shoppingBasket.getItems(), discount, customer1);
+        int total = Total.total(shoppingBasket);
         assertEquals(100, total);
     }
 
@@ -43,7 +43,7 @@ public class TotalTest {
             shoppingBasket.addItem(item1);
         }
         discount.addItemToBOGOFList(item1);
-        int total = Total.total(shoppingBasket.getItems(),discount, customer1);
+        int total = Total.total(shoppingBasket);
         assertEquals(300, total);
     }
 
@@ -54,32 +54,49 @@ public class TotalTest {
         }
         discount.setPercentageOffWhenOverAmount(10);
         discount.setMoneyOffOverAmount(2000);
-        int total = Total.total(shoppingBasket.getItems(), discount, customer1);
+        int total = Total.total(shoppingBasket);
         assertEquals(2025, total);
     }
 
     @Test
     public void getTotalOnlyMembershipDiscount() {
+        discount.setPercentageOffForMembership(2);
+        ShoppingBasket shoppingBasket = new ShoppingBasket(discount, customer2);
+
         for (int i = 0; i < 5; i++) {
             shoppingBasket.addItem(item1);
         }
-        discount.setPercentageOffForMembership(2);
-        int total = Total.total(shoppingBasket.getItems(), discount, customer2);
+
+        int total = Total.total(shoppingBasket);
         assertEquals(490, total);
     }
 
     @Test
     public void getTotalWithAllDiscounts() {
-        for (int i = 0; i < 5; i++) {
-            shoppingBasket.addItem(item1);
-            shoppingBasket.addItem(item2);
-        }
         discount.addItemToBOGOFList(item1);
         discount.setMoneyOffOverAmount(2000);
         discount.setPercentageOffWhenOverAmount(10);
         discount.setPercentageOffForMembership(2);
-        int total = Total.total(shoppingBasket.getItems(), discount, customer2);
+
+        ShoppingBasket shoppingBasket = new ShoppingBasket(discount, customer2);
+
+        for (int i = 0; i < 5; i++) {
+            shoppingBasket.addItem(item1);
+            shoppingBasket.addItem(item2);
+        }
+        int total = Total.total(shoppingBasket);
         assertEquals(2249, total);
     }
 
+    @Test
+    public void canCreatePrettyTotalNoLeadingZeros() {
+        String result = Total.prettyTotal(2784);
+        assertEquals("£27.84", result);
+    }
+
+    @Test
+    public void canCreatePrettyTotalLeadingZeros() {
+        String result = Total.prettyTotal(3001);
+        assertEquals("£30.01", result);
+    }
 }

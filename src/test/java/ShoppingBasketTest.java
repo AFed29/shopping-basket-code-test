@@ -10,9 +10,18 @@ public class ShoppingBasketTest {
 
     @Before
     public void before() {
-        this.shoppingBasket = new ShoppingBasket();
+        Customer customer = new Customer("Fred", true);
+
         this.apple = new Item("Apple", 50);
         this.macBook = new Item("MacBook Pro", 150000);
+
+        Discount discount = new Discount();
+        discount.setMoneyOffOverAmount(2000);
+        discount.setPercentageOffWhenOverAmount(10);
+        discount.setPercentageOffForMembership(2);
+        discount.addItemToBOGOFList(apple);
+
+        this.shoppingBasket = new ShoppingBasket(discount, customer);
     }
 
     @Test
@@ -72,20 +81,13 @@ public class ShoppingBasketTest {
 
     @Test
     public void checkTotalOfBasket() {
-        Discount discount = new Discount();
-        discount.setMoneyOffOverAmount(2000);
-        discount.setPercentageOffWhenOverAmount(10);
-        discount.setPercentageOffForMembership(2);
-        discount.addItemToBOGOFList(apple);
-
-        Customer customer = new Customer("Fred", true);
 
         for (int i = 0; i < 5; i++) {
             shoppingBasket.addItem(apple);
             shoppingBasket.addItem(macBook);
         }
 
-        int total = shoppingBasket.totalOfBasket(discount, customer);
-        assertEquals(661632, total);
+        String result = shoppingBasket.totalOfBasket();
+        assertEquals("£6616.32", result);
     }
 }
